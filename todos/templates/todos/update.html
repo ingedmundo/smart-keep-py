@@ -1,0 +1,26 @@
+<h1>{{list.description}}</h1>
+
+<form method='POST'>
+    {% csrf_token %} 
+    <h2>Pending</h2>
+    <ol>
+        {% for item in pending_items %}
+            <li>
+                <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="pending">
+                <label for="{{item.id}}">{{item.description}}</label><br>
+            </li>
+        {% endfor %}
+    </ol>
+
+    <h2>Done</h2>
+    <ol>
+        {% for item in done_items %}
+            <li>
+                <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="done">
+                <label for="{{item.id}}">{{item.description}}</label><br>
+            </li>
+        {% endfor %}
+    </ol>
+    
+    <input type='submit' value='update'>
+</form>

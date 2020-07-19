@@ -1,0 +1,9 @@
+<h1>{{list.description}}</h1>
+
+<ol>
+    {% for item in list.item_set.all %}
+        <li>{{item.description}}</li>
+    {% endfor %}
+</ol>
+
+<a href="{% url 'update' list.id %}">update</a>

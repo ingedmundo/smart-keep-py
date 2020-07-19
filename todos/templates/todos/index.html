@@ -1,0 +1,7 @@
+<h1>Your Lists</h1>
+
+<ol>
+    {% for list in lists %}
+    <li><a href="{% url 'detail' list.id %}">{{list.description}}</a></li>
+    {% endfor %}
+</ol>

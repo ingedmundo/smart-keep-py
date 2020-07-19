@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404,render
-from .models import List
+from .models import List, Item
 
 def index(request):
     lists = get_list_or_404(List)
@@ -7,7 +7,8 @@ def index(request):
 
 def detail(request, list_id):
     list = get_object_or_404(List, pk=list_id)
-    return  render(request, 'todos/detail.html', {'list': list})
+    list_items = Item.objects.filter(list= list).order_by('done')
+    return  render(request, 'todos/detail.html', {'list': list, 'list_items': list_items})
 
 def update(request, list_id):
     list = get_object_or_404(List, pk=list_id)

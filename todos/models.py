@@ -13,3 +13,6 @@ class Item(models.Model):
 
     def __str__(self):
         return  f"[{'DONE' if self.done else 'PENDING'}] {self.description} on {self.list}"
+    
+    def toggleDone(self):
+        self.done = not self.done

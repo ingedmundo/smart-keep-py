@@ -1,3 +1,4 @@
-body {
-        //
+#list__items--done li label{
+        text-decoration: line-through;
+        color: grey;
 }

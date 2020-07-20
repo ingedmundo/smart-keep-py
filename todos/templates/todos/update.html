@@ -16,15 +16,15 @@
                 <h2>Pending</h2>
                 <ol>
                     {% for item in pending_items %}
-                        <li>
+                        <li class="mb-3">
                             <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="pending">
-                            <label for="{{item.id}}">{{item.description}}</label><br>
+                            <label for="{{item.id}}">{{item.description}}</label>
+                            <a href="{% url 'delete' list.id item.id %}" class="btn btn-primary d-inline-block">x</a>
                         </li>
                     {% endfor %}
                 </ol>
 
-                <input type='text' name='new_item' placeholder="Add Item Description"/>
-                <input type='submit' value='agregar'>
+                <input type='text' name='new_item' placeholder="Add Item Description" autofocus/>
 
                 <h2>Done</h2>
                 <ul class='list-unstyled' id='list__items--done'>

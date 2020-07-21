@@ -1,45 +1,32 @@
-{% load static %}
-
-<html>
-    <head>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <link rel="stylesheet" href="{% static 'todos/app.css' %}">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-
-    <body>
-        <div class='container'>
-            <h1>{{list.description}}</h1>
-
-            <form method='POST' id='frm-todo'>
-                {% csrf_token %} 
-                <h2>Pending</h2>
-                <ol>
-                    {% for item in pending_items %}
-                        <li class="mb-3">
-                            <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="pending">
-                            <label for="{{item.id}}">{{item.description}}</label>
-                            <a href="{% url 'delete' list.id item.id %}" class="btn btn-primary d-inline-block">x</a>
-                        </li>
-                    {% endfor %}
-                </ol>
-
-                <input type='text' name='new_item' placeholder="Add Item Description" autofocus/>
-
-                <h2>Done</h2>
-                <ul class='list-unstyled' id='list__items--done'>
-                    {% for item in done_items %}
-                        <li>
-                            <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="done">
-                            <label for="{{item.id}}">{{item.description}}</label><br>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </form>
-            <hr>
-            <a href="{% url 'index' %}">All Lists</a>
-
-        </div>
-        <script type="text/javascript" src="{% static 'todos/app.js' %}"></script>
-    </body>
-</html>
+{% extends "layout.html" %}
+{% block content %}
+    <h1>{{list.description}}</h1>
+    
+    <form method='POST' id='frm-todo'>
+        {% csrf_token %}
+        <h2>Pending</h2>
+        <ol>
+            {% for item in pending_items %}
+            <li class="mb-3">
+                <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="pending">
+                <label for="{{item.id}}">{{item.description}}</label>
+                <a href="{% url 'delete' list.id item.id %}" class="btn btn-primary d-inline-block">x</a>
+            </li>
+            {% endfor %}
+        </ol>
+    
+        <input type='text' name='new_item' placeholder="Add Item Description" autofocus />
+    
+        <h2>Done</h2>
+        <ul class='list-unstyled' id='list__items--done'>
+            {% for item in done_items %}
+            <li>
+                <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="done">
+                <label for="{{item.id}}">{{item.description}}</label><br>
+            </li>
+            {% endfor %}
+        </ul>
+    </form>
+    <hr>
+    <a href="{% url 'index' %}">All Lists</a>
+{% endblock %}

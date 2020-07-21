@@ -2,8 +2,11 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404,render, 
 from .models import List, Item
 
 def index(request):
-    lists = get_list_or_404(List)
-    return render(request, 'todos/index.html', {'lists': lists})
+    if request.method == 'POST' and len(request.POST['description']):
+        new_list = List(description = request.POST['description'])
+        new_list.save()
+
+    return render(request, 'todos/index.html', {'lists': List.objects.all})
 
 def update(request, list_id):
     list = get_object_or_404(List, pk=list_id)

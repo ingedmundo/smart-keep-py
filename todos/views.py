@@ -19,7 +19,11 @@ def update(request, list_id):
 
         if 'new_item' in request.POST and len(request.POST['new_item']) > 0:
             try:    
-                list.item_set.get(description = request.POST['new_item']) 
+                existing_item = list.item_set.get(description = request.POST['new_item']) 
+                if existing_item.done:
+                    existing_item.toggleDone()
+                    existing_item.save()
+
             except:
                list.item_set.create(description = request.POST['new_item'])
         

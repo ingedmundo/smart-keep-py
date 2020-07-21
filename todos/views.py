@@ -5,11 +5,6 @@ def index(request):
     lists = get_list_or_404(List)
     return render(request, 'todos/index.html', {'lists': lists})
 
-def detail(request, list_id):
-    list = get_object_or_404(List, pk=list_id)
-    list_items = Item.objects.filter(list=list).order_by('done')
-    return  render(request, 'todos/detail.html', {'list': list, 'list_items': list_items})
-
 def update(request, list_id):
     list = get_object_or_404(List, pk=list_id)
 

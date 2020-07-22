@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>{{list.description}}</h1>
+    <h2>$ {{list.budget}}</h2>
+    <hr>
     
     <form method='POST' id='frm-todo'>
         {% csrf_token %}

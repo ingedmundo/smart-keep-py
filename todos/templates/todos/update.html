@@ -11,8 +11,12 @@
             {% for item in pending_items %}
             <li class="mb-3">
                 <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="pending">
-                <label for="{{item.id}}">{{item.description}}</label>
-                <a href="{% url 'delete' list.id item.id %}" class="btn btn-primary d-inline-block">x</a>
+                <label for="{{item.id}}">
+                    <b>{{item.description}} </b>                    
+                    $
+                    <em> {{item.cost}}  </em>
+                </label>
+                <a href="{% url 'delete' list.id item.id %}" class="btn btn-primary d-inline-block ml-5">x</a>
             </li>
             {% endfor %}
         </ol>

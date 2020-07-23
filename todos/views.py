@@ -21,16 +21,22 @@ def update(request, list_id):
             item.save()
 
         if 'new_item' in request.POST and len(request.POST['new_item']) > 0:
+            if '$' in request.POST['new_item']:
+                description = request.POST['new_item'].split('$')[0].strip()
+                cost = request.POST['new_item'].split('$')[1]
+            else:
+                description = request.POST['new_item'].strip()
+                cost = 1
+
             try:    
-                existing_item = list.item_set.get(description = request.POST['new_item']) 
+                existing_item = list.item_set.get(description = description) 
                 if existing_item.done:
                     existing_item.toggleDone()
                     existing_item.save()
 
             except:
-               list.item_set.create(description = request.POST['new_item'])
+                list.item_set.create(description = description, cost = cost)
         
-
     pending_items = list.item_set.filter(done=False)
     done_items = list.item_set.filter(done=True)
 

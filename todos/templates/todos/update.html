@@ -26,9 +26,19 @@
         <h2>Done</h2>
         <ul class='list-unstyled' id='list__items--done'>
             {% for item in done_items %}
+            {% if item.is_to_be_bought %}
+            <li class="bg-warning">
+            {% else %}
             <li>
+            {% endif %}
                 <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="done">
-                <label for="{{item.id}}">{{item.description}}</label><br>
+                <label for="{{item.id}}">
+                    {{item.description}}
+                </label>
+                <div class="small pb-3 ml-3">
+                    <div> Delta: {{item.delta}}</div>
+                    <div> Days since last bought: {{item.delta_days}}</div>
+                </div>
             </li>
             {% endfor %}
         </ul>

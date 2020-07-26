@@ -1,1 +1,1 @@
-web: gunicorn smartkeepy.wsgi --log-file -
+web: gunicorn smartkeeppy.wsgi

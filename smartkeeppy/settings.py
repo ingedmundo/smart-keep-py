@@ -25,7 +25,7 @@ SECRET_KEY = 'gclzk_3u9np=vly*%apmhy^s#)+58@d97ni!wv$d=z8y&&h=bw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['smart-keep-py.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['smart-keep-py.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition

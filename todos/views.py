@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404,render, HttpResponse, redirect
+from django.http import JsonResponse
 from .models import List, Item
 import datetime
+import json
 
 def index(request):
     if request.method == 'POST' and len(request.POST['description']):
@@ -9,32 +11,9 @@ def index(request):
 
     return render(request, 'todos/index.html', {'lists': List.objects.all})
 
-def update(request, list_id):
+def show(request, list_id):
     list = get_object_or_404(List, pk=list_id)
 
-    if request.method == 'POST':
-        for key, _ in request.POST.items():
-            if key == 'csrfmiddlewaretoken' or key == 'new_item' or key == "delete": continue 
-
-            item = list.item_set.get(pk=key)
-
-            item.toggle_done()
-
-        if 'new_item' in request.POST and len(request.POST['new_item']) > 0:
-            if '$' in request.POST['new_item']:
-                description = request.POST['new_item'].split('$')[0].strip()
-                cost = request.POST['new_item'].split('$')[1]
-            else:
-                description = request.POST['new_item'].strip()
-                cost = 1
-
-            try:    
-                existing_item = list.item_set.get(description = description) 
-                if existing_item.done:
-                    existing_item.toggle_done()
-
-            except:
-                list.item_set.create(description = description, cost = cost)
         
     pending_items = list.item_set.filter(done=False)
     done_items = list.item_set.filter(done=True)
@@ -47,3 +26,32 @@ def delete_item(request, list_id, item_id):
 
     return  redirect(update, list.id)
 
+def toggle_item(request, list_id, item_id):
+    list = get_object_or_404(List, pk=list_id)
+    item = list.item_set.get(pk=item_id)
+
+    item.toggle_done()
+
+    return JsonResponse({'success': True})
+
+def add_item(request, list_id):
+    list = get_object_or_404(List, pk=list_id)
+    json_data = json.loads(request.body)
+
+    if len(json_data['new_item']) > 0:
+        if '$' in json_data['new_item']:
+            description = json_data['new_item'].split('$')[0].strip()
+            cost = json_data['new_item'].split('$')[1]
+        else:
+            description = json_data['new_item'].strip()
+            cost = 1
+
+        try:    
+            existing_item = list.item_set.get(description = description) 
+            if existing_item.done:
+                existing_item.toggle_done()
+
+        except:
+            list.item_set.create(description = description, cost = cost)
+
+    return JsonResponse({'test': json_data['new_item']})

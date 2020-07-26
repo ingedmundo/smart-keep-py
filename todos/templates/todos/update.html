@@ -4,7 +4,7 @@
     <h2>$ {{list.budget}}</h2>
     <hr>
     
-    <form method='POST' id='frm-todo'>
+    <form method='POST' id='frm-todo' action='add'>
         {% csrf_token %}
         <h2>Pending</h2>
         <ol>
@@ -31,7 +31,7 @@
             {% else %}
             <li>
             {% endif %}
-                <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="done">
+                <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="done" checked>
                 <label for="{{item.id}}">
                     {{item.description}}
                 </label>

@@ -24,7 +24,7 @@ def delete_item(request, list_id, item_id):
     list = get_object_or_404(List, pk=list_id)
     list.item_set.get(pk=item_id).delete()
 
-    return  redirect(update, list.id)
+    return  redirect(show, list.id)
 
 def toggle_item(request, list_id, item_id):
     list = get_object_or_404(List, pk=list_id)

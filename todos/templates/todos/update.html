@@ -1,29 +1,31 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>{{list.description}}</h1>
-    <h2>$ {{list.budget}}</h2>
-    <hr>
+    <div class="row my-3">
+        <div class="col text-center">
+            <h1>{{list.description}}</h1>
+            <h2>$ {{list.budget}}</h2>
+        </div>
+    </div>
     
-    <form method='POST' id='frm-todo' action='add'>
         {% csrf_token %}
-        <h2>Pending</h2>
-        <ol>
+        <ul class='list-unstyled'>
             {% for item in pending_items %}
-            <li class="mb-3">
-                <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="pending">
-                <label for="{{item.id}}">
-                    <b>{{item.description}} </b>                    
-                    $
-                    <em> {{item.cost}}  </em>
-                </label>
-                <a href="{% url 'delete' list.id item.id %}" class="btn btn-primary d-inline-block ml-5">x</a>
+            <li class="py-2">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="{{item.id}}" name="{{item.id}}" value="pending">
+                    <label class="custom-control-label" for="{{item.id}}">{{item.description}} <em>{{item.cost}}</em></label>
+                    <a href="{% url 'delete' list.id item.id %}" class="btn btn-primary d-inline-block float-right">x</a>
+                </div>
             </li>
             {% endfor %}
-        </ol>
+        </ul>
     
-        <input type='text' name='new_item' placeholder="Add Item Description" autofocus />
+        <form method='POST' id='frm-todo' action='add'>
+            <div class="form-group">
+                <input type="text" class="form-control" id="newItem" name="new_item" aria-describedby="Add new item description" placeholder="Add New Item"> 
+             </div>
+        </form>
     
-        <h2>Done</h2>
         <ul class='list-unstyled' id='list__items--done'>
             {% for item in done_items %}
             {% if item.is_to_be_bought %}
@@ -31,18 +33,18 @@
             {% else %}
             <li>
             {% endif %}
-                <input type="checkbox" id="{{item.id}}" name="{{item.id}}" value="done" checked>
-                <label for="{{item.id}}">
-                    {{item.description}}
-                </label>
-                <div class="small pb-3 ml-3">
+                <div class="custom-control custom-checkbox py-1">
+                    <input type="checkbox" class="custom-control-input" id="{{item.id}}" name="{{item.id}}" value="done" checked>
+                    <label class="custom-control-label" for="{{item.id}}">{{item.description}}</label>
+                </div>
+                <div class="small pb-3 ml-3 d-none">
                     <div> Delta: {{item.delta}}</div>
                     <div> Days since last bought: {{item.delta_days}}</div>
                 </div>
             </li>
             {% endfor %}
         </ul>
-    </form>
-    <hr>
-    <a href="{% url 'index' %}">All Lists</a>
+    <div class='fixed-bottom bg-dark text-light p-3 text-center'>
+        <a class="text-light" href="{% url 'index' %}">All Lists</a>
+    </div>
 {% endblock %}

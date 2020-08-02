@@ -56,7 +56,7 @@ class Item(models.Model):
             return False
 
 class ItemHistory(models.Model):
-    date = models.DateField(default=datetime.date.today())
+    date = models.DateField(auto_now_add=True)
     delta = models.IntegerField()
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 

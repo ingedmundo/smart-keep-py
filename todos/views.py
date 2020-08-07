@@ -14,15 +14,17 @@ def index(request):
 def show(request, list_id):
     list = get_object_or_404(List, pk=list_id)
 
-        
-    pending_items = list.item_set.filter(done=False)
-    done_items = list.item_set.filter(done=True)
+    pending_items = list.item_set.filter(active=True, done=False)
+    done_items = list.item_set.filter(active=True, done=True)
 
     return  render(request, 'todos/update.html', {'list': list, 'pending_items': pending_items, 'done_items': done_items })
 
 def delete_item(request, list_id, item_id):
     list = get_object_or_404(List, pk=list_id)
-    list.item_set.get(pk=item_id).delete()
+    current_item = list.item_set.get(pk=item_id)
+    current_item.active = False
+    current_item.done = True
+    current_item.save()
 
     return  redirect(show, list.id)
 

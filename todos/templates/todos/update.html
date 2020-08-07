@@ -13,7 +13,7 @@
             <li class="py-2">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="{{item.id}}" name="{{item.id}}" value="pending">
-                    <label class="custom-control-label" for="{{item.id}}">{{item.description}} <em>{{item.cost}}</em></label>
+                    <label class="custom-control-label" for="{{item.id}}">{{item.description}} <em> - ${{item.cost}}</em></label>
                     <a href="{% url 'delete' list.id item.id %}" class="btn btn-primary d-inline-block float-right">x</a>
                 </div>
             </li>
@@ -22,7 +22,7 @@
     
         <form method='POST' id='frm-todo' action='add'>
             <div class="form-group">
-                <input type="text" class="form-control" id="newItem" name="new_item" aria-describedby="Add new item description" placeholder="Add New Item"> 
+                <input type="text" class="form-control" id="newItem" name="new_item" aria-describedby="Add new item description" placeholder="Add New Item" autofocus> 
              </div>
         </form>
     
@@ -35,11 +35,7 @@
             {% endif %}
                 <div class="custom-control custom-checkbox py-1">
                     <input type="checkbox" class="custom-control-input" id="{{item.id}}" name="{{item.id}}" value="done" checked>
-                    <label class="custom-control-label" for="{{item.id}}">{{item.description}}</label>
-                </div>
-                <div class="small pb-3 ml-3 d-none">
-                    <div> Delta: {{item.delta}}</div>
-                    <div> Days since last bought: {{item.delta_days}}</div>
+                    <label class="custom-control-label" for="{{item.id}}" title="{{item.delta_info}}">{{item.description}}</label>
                 </div>
             </li>
             {% endfor %}

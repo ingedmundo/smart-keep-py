@@ -19,6 +19,7 @@ class List(models.Model):
 class Item(models.Model):
     description = models.CharField(max_length=100)
     done = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
     cost = models.DecimalField( max_digits=5, decimal_places=2, default=1.0)
     list = models.ForeignKey(List, on_delete=models.CASCADE)
 
@@ -27,6 +28,7 @@ class Item(models.Model):
     
     def toggle_done(self):
         self.done = not self.done
+        self.active = True
 
         if self.done:
             try:
@@ -38,7 +40,7 @@ class Item(models.Model):
 
             if not last_histoy or (last_histoy and delta > 1):
                 self.itemhistory_set.create(delta=delta)
-
+        
         self.save()
 
     def delta(self):
@@ -46,14 +48,20 @@ class Item(models.Model):
        return delta_avg['delta__avg']
     
     def delta_days(self):
-        last_histoy = self.itemhistory_set.all().last()
-        return (datetime.date.today() - last_histoy.date).days
+        try:
+            last_histoy = self.itemhistory_set.all().last()
+            return (datetime.date.today() - last_histoy.date).days
+        except:
+            return 'None'
     
     def is_to_be_bought(self):
         try:
             return self.delta_days() > self.delta()
         except:
             return False
+
+    def delta_info(self):
+        return f'Delta: {self.delta()}, Days since last buy: {self.delta_days()}'
 
 class ItemHistory(models.Model):
     date = models.DateField(auto_now_add=True)

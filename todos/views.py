@@ -15,7 +15,7 @@ def show(request, list_id):
     list = get_object_or_404(List, pk=list_id)
 
     pending_items = list.item_set.filter(active=True, done=False)
-    done_items = list.item_set.filter(active=True, done=True)
+    done_items = list.item_set.filter(active=True, done=True).order_by('description')
 
     return  render(request, 'todos/update.html', {'list': list, 'pending_items': pending_items, 'done_items': done_items })
 

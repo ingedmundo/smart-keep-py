@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('todos.urls')),
     path('todos/', include('todos.urls')),
-    path('frontend', include('frontend.urls'))
+    path('frontend/', include('frontend.urls')),
+    path('api/', include('api.urls'))
 ]

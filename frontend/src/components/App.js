@@ -1,26 +1,15 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
+import List from './List';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [],
-      loaded: false,
-      placeholder: "Loading"
-    };
-  }
+const rootElement = document.getElementById("app");
+let listItems = [   {id: 1, description: 'item1', cost: 9.99, done: false},
+                    {id: 2, description: 'item2', cost: 9.99, done: false},
+                    {id: 3, description: 'item3', cost: 9.99, done: false},
+                    {id: 4, description: 'item4', cost: 9.99, done: false},
+                    {id: 5, description: 'item5', cost: 9.99, done: false},
+                    {id: 6, description: 'item6', cost: 9.99, done: true},
+                    {id: 7, description: 'item7', cost: 9.99, done: true},
+                ]
 
-  render() {
-    return (
-      <h1>
-      Hello from React
-      </h1>
-    );
-  }
-}
-
-export default App;
-
-const container = document.getElementById("app");
-render(<App />, container);
+render(<List items={listItems} />, rootElement);

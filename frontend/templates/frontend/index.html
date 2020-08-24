@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Django REST with React</title>
-</head>
-<body>
+{% extends "fe_layout.html" %}
+
+{% block content %}
 <div id="app">
-    <!-- React will load here -->
+  <!-- React will load here -->
 </div>
-</body>
-{% load static %}
-<script src="{% static "frontend/main.js" %}"></script>
-</html>
+{% endblock %}

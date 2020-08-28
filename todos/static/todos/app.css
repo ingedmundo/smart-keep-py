@@ -2,3 +2,17 @@
         text-decoration: line-through;
         color: grey;
 }
+
+.twitter-typeahead {
+        width: 100%;
+}
+
+.tt-menu {
+        background: white;
+        border: 2px solid lightslategray;
+        padding: 5px;
+}
+
+.tt-menu .tt-cursor {
+        background: lightgoldenrodyellow;
+}

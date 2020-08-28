@@ -1,3 +1,4 @@
+
 document.querySelectorAll('input[type="checkbox"]').forEach(item => {
     item.addEventListener("click", function (e) {
         fetch(e.target.id+'/toggle')

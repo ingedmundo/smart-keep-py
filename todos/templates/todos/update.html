@@ -6,7 +6,6 @@
             <h2>$ {{list.budget}}</h2>
         </div>
     </div>
-    
         {% csrf_token %}
         <ul class='list-unstyled'>
             {% for item in pending_items %}
@@ -14,7 +13,7 @@
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="{{item.id}}" name="{{item.id}}" value="pending">
                     <label class="custom-control-label" for="{{item.id}}">{{item.description}} <em> - ${{item.cost}}</em></label>
-                    <small class='d-none d-sm-block text-muted'>
+                    <small class='d-none d-sm-inline-block text-muted'>
                         {{item.delta_info}}
                     </small>
                     <a href="{% url 'delete' list.id item.id %}" class="btn btn-primary d-inline-block float-right">x</a>
@@ -26,6 +25,7 @@
         <form method='POST' id='frm-todo' action='add'>
             <div class="form-group">
                 <input type="text" class="form-control" id="newItem" name="new_item" aria-describedby="Add new item description" placeholder="Add New Item" autofocus> 
+                <input type="submit" class="btn btn-primary d-none" value="Add Item">
              </div>
         </form>
     
@@ -49,4 +49,38 @@
     <div class='fixed-bottom bg-dark text-light p-3 text-center'>
         <a class="text-light" href="{% url 'index' %}">All Lists</a>
     </div>
+    <script>
+        var substringMatcher = function (strs) {
+            return function findMatches(q, cb) {
+                var matches, substringRegex;
+
+                // an array that will be populated with substring matches
+                matches = [];
+
+                // regex used to determine if a string contains the substring `q`
+                substrRegex = new RegExp(q, 'i');
+
+                // iterate through the pool of strings and for any string that
+                // contains the substring `q`, add it to the `matches` array
+                $.each(strs, function (i, str) {
+                    if (substrRegex.test(str)) {
+                        matches.push(str);
+                    }
+                });
+
+                cb(matches);
+            };
+        };
+        var items = [
+            {% for item in done_items %}
+                '{{item.description}}',
+            {% endfor %}
+            ];
+
+        $('#newItem').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        }, { name: 'items', source: substringMatcher(items) });
+    </script>
 {% endblock %}

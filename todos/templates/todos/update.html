@@ -1,12 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="row my-3">
+    <div class="row mt-2">
         <div class="col text-center">
             <h1>{{list.description}}</h1>
-            <h2>$ {{list.budget}}</h2>
+            <h3>$ {{list.budget}}</h3>
         </div>
     </div>
         {% csrf_token %}
+        <form method='POST' id='frm-todo' action='add'>
+            <div class="row no-gutters">
+                <div class="col-9">
+                    <input type="text" class="form-control" id="newItem" name="new_item" aria-describedby="Add new item description" placeholder="Add New Item" autofocus> 
+                </div>
+                <div class="col">
+                    <input type="submit" class="btn btn-block btn-primary" value="Add">
+                </div>
+            </div>
+        </form>
         <ul class='list-unstyled'>
             {% for item in pending_items %}
             <li class="py-2">
@@ -22,12 +32,6 @@
             {% endfor %}
         </ul>
     
-        <form method='POST' id='frm-todo' action='add'>
-            <div class="form-group">
-                <input type="text" class="form-control" id="newItem" name="new_item" aria-describedby="Add new item description" placeholder="Add New Item" autofocus> 
-                <input type="submit" class="btn btn-primary d-none" value="Add Item">
-             </div>
-        </form>
     
         <ul class='list-unstyled' id='list__items--done'>
             {% for item in done_items %}

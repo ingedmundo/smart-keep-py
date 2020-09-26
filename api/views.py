@@ -2,7 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from todos.models import List
-from api.serializers import ListSerializer
+from api.serializers import ListSerializer, ItemSerializer
 
 @csrf_exempt
 def list_list(request):
@@ -42,3 +42,13 @@ def list_detail(request, pk):
         list.detele()
         return HttpResponse(status=204)
 
+@csrf_exempt
+def list_items(request, pk):
+    try: 
+        list = List.objects.get(pk=pk)
+    except List.DoesNotExist:
+        return HttpResponse(status=404)
+    
+    if request.method == 'GET':
+        serializer = ItemSerializer(list.item_set.all(), many=True)
+        return JsonResponse(serializer.data, safe=False)

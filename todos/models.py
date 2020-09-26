@@ -7,11 +7,11 @@ class List(models.Model):
 
     def __str__(self):
         return  self.description
-    
+
     def budget(self):
         budget = 0
         for item in self.item_set.filter(done=False):
-            budget += item.cost 
+            budget += item.cost
 
         return budget
 
@@ -25,7 +25,7 @@ class Item(models.Model):
 
     def __str__(self):
         return  f"[{'DONE' if self.done else 'PENDING'}] {self.description} - delta: {self.delta()}"
-    
+
     def toggle_done(self):
         self.done = not self.done
         self.active = True
@@ -40,20 +40,20 @@ class Item(models.Model):
 
             if not last_histoy or (last_histoy and delta > 1):
                 self.itemhistory_set.create(delta=delta)
-        
+
         self.save()
 
     def delta(self):
-       delta_avg = self.itemhistory_set.filter(delta__gt=0).aggregate(Avg('delta')) 
+       delta_avg = self.itemhistory_set.filter(delta__gt=0).aggregate(Avg('delta'))
        return delta_avg['delta__avg']
-    
+
     def delta_days(self):
         try:
             last_histoy = self.itemhistory_set.all().last()
             return (datetime.date.today() - last_histoy.date).days
         except:
             return 'None'
-    
+
     def is_to_be_bought(self):
         try:
             return self.delta_days() > self.delta()

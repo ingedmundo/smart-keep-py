@@ -5,4 +5,4 @@ from todos.models import List
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
         model = List
-        fields = ('id', 'description')
+        fields = ['id', 'description']

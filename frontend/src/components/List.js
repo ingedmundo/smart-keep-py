@@ -8,11 +8,30 @@ class List extends React.Component {
         super(props);
 
         this.state = {
-            items: this.props.items
+            items: []
         }
 
         this.toggleItem = this.toggleItem.bind(this);
     }
+
+    componentDidMount() {
+        fetch("http://localhost:8000/api/lists/1/items")
+          .then(res => res.json())
+          .then(
+            (result) => {
+                this.setState({
+                    items: result
+                })
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+                alert('something went wrong')
+            }
+          )
+      }
+
 
     toggleItem(event) {
         let itemId = event.target.attributes['data-id'].value;
@@ -40,6 +59,7 @@ class List extends React.Component {
                 <ul className='list-unstyled'>
                     {pendingListItems}
                 </ul>
+                <hr></hr>
                 <ul className='list-unstyled'>
                     {doneListItems}
                 </ul>

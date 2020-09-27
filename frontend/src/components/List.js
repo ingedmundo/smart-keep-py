@@ -15,7 +15,7 @@ class List extends React.Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8000/api/lists/1/items")
+        fetch(`http://localhost:8000/api/lists/${this.props.listId}/items`)
           .then(res => res.json())
           .then(
             (result) => {
@@ -23,9 +23,6 @@ class List extends React.Component {
                     items: result
                 })
             },
-            // Note: it's important to handle errors here
-            // instead of a catch() block so that we don't swallow
-            // exceptions from actual bugs in components.
             (error) => {
                 alert('something went wrong')
             }
@@ -36,21 +33,26 @@ class List extends React.Component {
     toggleItem(event) {
         let itemId = event.target.attributes['data-id'].value;
 
-        let idx = this.state.items.findIndex(item => item.id == itemId);
-        let updatedItems = this.state.items;
-        updatedItems[idx].done = !updatedItems[idx].done;
+        fetch(`http://localhost:8000/api/lists/${this.props.listId}/items/${itemId}/toggle`)
+          .then(res => res.json())
+          .then(
+            (result) => {
+                let idx = this.state.items.findIndex(item => item.id == itemId);
+                let updatedItems = this.state.items;
+                updatedItems[idx].done = !updatedItems[idx].done;
 
-        this.setState({
-            items: updatedItems
-        });
+                this.setState({
+                    items: updatedItems
+                });
+            })
     }
 
     render() {
-        const pendingListItems = this.state.items.filter((item)=> !item.done).map((item)=>
+        const pendingListItems = this.state.items.filter((item)=> !item.done && item.active).map((item)=>
             <ListItem data={item} toggle={this.toggleItem}/>
         );
 
-        const doneListItems = this.state.items.filter((item)=> item.done).map((item)=>
+        const doneListItems = this.state.items.filter((item)=> item.done && item.active).map((item)=>
             <ListItem data={item} toggle={this.toggleItem}/>
         );
 

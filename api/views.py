@@ -52,3 +52,15 @@ def list_items(request, pk):
     if request.method == 'GET':
         serializer = ItemSerializer(list.item_set.all(), many=True)
         return JsonResponse(serializer.data, safe=False)
+
+@csrf_exempt
+def list_item_toggle(request, list_id, item_id):
+    try:
+        list = List.objects.get(pk=list_id)
+    except List.DoesNotExist:
+        return HttpResponse(status=404)
+
+    item = list.item_set.get(pk=item_id)
+    item.toggle_done()
+
+    return JsonResponse({'success': True})

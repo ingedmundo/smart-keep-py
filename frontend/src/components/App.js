@@ -3,4 +3,4 @@ import { render } from "react-dom";
 import List from './List';
 
 const rootElement = document.getElementById("app");
-render(<List/>, rootElement);
+render(<List listId="1"/>, rootElement);

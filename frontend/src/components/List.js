@@ -15,7 +15,7 @@ class List extends React.Component {
     }
 
     componentDidMount() {
-        fetch(`http://localhost:8000/api/lists/${this.props.listId}/items`)
+        fetch(`/api/lists/${this.props.listId}/items`)
           .then(res => res.json())
           .then(
             (result) => {
@@ -33,7 +33,7 @@ class List extends React.Component {
     toggleItem(event) {
         let itemId = event.target.attributes['data-id'].value;
 
-        fetch(`http://localhost:8000/api/lists/${this.props.listId}/items/${itemId}/toggle`)
+        fetch(`/api/lists/${this.props.listId}/items/${itemId}/toggle`)
           .then(res => res.json())
           .then(
             (result) => {

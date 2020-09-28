@@ -12,6 +12,7 @@ class List extends React.Component {
         }
 
         this.toggleItem = this.toggleItem.bind(this);
+        this.handleChange = this.handleChange.bind(this)
     }
 
     componentDidMount() {
@@ -47,21 +48,48 @@ class List extends React.Component {
             })
     }
 
+    handleChange(event) {
+        const data = {
+            newItemDescription: event.target.value
+        }
+
+        if(event.key == 'Enter' && data['newItemDescription'].length) {
+            fetch(`/api/lists/${this.props.listId}/items`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    this.setState({
+                        items: result
+                    })
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            
+            event.target.value = ''
+        }
+    }
+
     render() {
         const pendingListItems = this.state.items.filter((item)=> !item.done && item.active).map((item)=>
             <ListItem data={item} toggle={this.toggleItem}/>
         );
 
-        const doneListItems = this.state.items.filter((item)=> item.done && item.active).map((item)=>
+        const doneListItems = this.state.items.filter((item)=> item.done && item.active).sort().map((item)=>
             <ListItem data={item} toggle={this.toggleItem}/>
         );
 
         return (
             <section>
+                <h1 class="my-4">List name</h1>
+                <div class='form-group'>
+                    <input type="text" placeholder="Add New Item" class='form-control' onKeyDown={this.handleChange} ></input>
+                </div>
                 <ul className='list-unstyled'>
                     {pendingListItems}
                 </ul>
-                <hr></hr>
                 <ul className='list-unstyled'>
                     {doneListItems}
                 </ul>

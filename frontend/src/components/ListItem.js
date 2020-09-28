@@ -13,7 +13,7 @@ function ListItem(props) {
                 checked={data.done}
                 /> {data.description} - ${data.cost}
             </label>
-            <small>{data.delta_info}</small>
+            <small class='text-muted'>{data.delta_info}</small>
         </li>
     )
 }

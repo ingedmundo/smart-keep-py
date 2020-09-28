@@ -50,9 +50,31 @@ def list_items(request, pk):
         return HttpResponse(status=404)
     
     if request.method == 'GET':
+        ordered_items = list.item_set.all().order_by('description')
+        serializer = ItemSerializer(ordered_items, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+
+        if '$' in data['newItemDescription']:
+            description = data['newItemDescription'].split('$')[0].strip()
+            cost = data['newItemDescription'].split('$')[1]
+        else:
+            description = data['newItemDescription'].strip()
+            cost = 1
+
+        try:    
+            existing_item = list.item_set.get(description = description) 
+            if existing_item.done:
+                existing_item.toggle_done()
+
+        except:
+            list.item_set.create(description = description, cost = cost)
+
         serializer = ItemSerializer(list.item_set.all(), many=True)
         return JsonResponse(serializer.data, safe=False)
-
+        
 @csrf_exempt
 def list_item_toggle(request, list_id, item_id):
     try:

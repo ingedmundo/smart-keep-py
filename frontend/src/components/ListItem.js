@@ -5,15 +5,23 @@ function ListItem(props) {
 
     return (
         <li className="py-2" style={{background: data.is_to_be_bought ? 'lightyellow':'initial'}}>
-            <label>
+            <div className="custom-control custom-checkbox">
                 <input
-                type="checkbox"
-                data-id={data.id}
-                onChange={toggle}
-                checked={data.done}
-                /> {data.description} - ${data.cost}
-            </label>
-            <small className='text-muted'>{data.delta_info}</small>
+                    type="checkbox"
+                    data-id={data.id}
+                    onChange={toggle}
+                    checked={data.done} 
+                    className="custom-control-input"
+                    id={data.id}/>
+                <label 
+                    className="custom-control-label" 
+                    htmlFor={data.id} >
+                    {data.description} <em>- ${data.cost} </em>
+                </label>
+            </div>
+            <small className='d-none d-sm-inline-block text-muted'>
+                {data.delta_info}
+            </small>
         </li>
     )
 }

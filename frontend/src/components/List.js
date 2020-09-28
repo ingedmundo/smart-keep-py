@@ -3,6 +3,25 @@
 import React, { Component } from 'react';
 import ListItem from './ListItem';
 
+var substringMatcher = function (strs) {
+    return function findMatches(q, cb) {
+        // an array that will be populated with substring matches
+        let matches = [];
+        // regex used to determine if a string contains the substring `q`
+        let substrRegex = new RegExp(q, 'i');
+
+        // iterate through the pool of strings and for any string that
+        // contains the substring `q`, add it to the `matches` array
+        $.each(strs, function (i, str) {
+            if (substrRegex.test(str)) {
+                matches.push(str);
+            }
+        });
+
+        cb(matches);
+    };
+};
+
 class List extends React.Component {
     constructor(props) {
         super(props);
@@ -33,6 +52,12 @@ class List extends React.Component {
                 this.setState({
                     items: result
                 })
+
+                $('#newItem').typeahead({
+                    hint: true,
+                    highlight: true,
+                    minLength: 1
+                }, { name: 'items', source: substringMatcher(result.map((i)=> i.description)) });
             },
             (error) => {
                 alert('something went wrong')
@@ -101,7 +126,7 @@ class List extends React.Component {
                 <h1 className="text-center my-2">{this.state.title}</h1>
                 <h2 className="text-center my-2">${budget}</h2>
                 <div className='form-group'>
-                    <input type="text" placeholder="Add New Item" className='form-control' onKeyDown={this.handleChange} ></input>
+                    <input type="text" id="newItem" placeholder="Add New Item" className='form-control' onKeyDown={this.handleChange} ></input>
                 </div>
                 <ul className='list-unstyled'>
                     {pendingListItems}

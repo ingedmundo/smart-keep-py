@@ -83,11 +83,11 @@ class List extends React.Component {
 
     render() {
         const pendingListItems = this.state.items.filter((item)=> !item.done && item.active).map((item)=>
-            <ListItem data={item} toggle={this.toggleItem}/>
+            <ListItem key={item.id} data={item} toggle={this.toggleItem}/>
         );
 
         const doneListItems = this.state.items.filter((item)=> item.done && item.active).sort().map((item)=>
-            <ListItem data={item} toggle={this.toggleItem}/>
+            <ListItem key={item.id} data={item} toggle={this.toggleItem}/>
         );
 
         let budget = 0.0;
@@ -98,10 +98,10 @@ class List extends React.Component {
 
         return (
             <section>
-                <h1 class="my-4">{this.state.title}</h1>
-                <h4 class="my-4">{budget}</h4>
-                <div class='form-group'>
-                    <input type="text" placeholder="Add New Item" class='form-control' onKeyDown={this.handleChange} ></input>
+                <h1 className="my-4">{this.state.title}</h1>
+                <h4 className="my-4">{budget}</h4>
+                <div className='form-group'>
+                    <input type="text" placeholder="Add New Item" className='form-control' onKeyDown={this.handleChange} ></input>
                 </div>
                 <ul className='list-unstyled'>
                     {pendingListItems}

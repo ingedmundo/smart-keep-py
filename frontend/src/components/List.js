@@ -98,15 +98,15 @@ class List extends React.Component {
 
         return (
             <section>
-                <h1 className="my-4">{this.state.title}</h1>
-                <h4 className="my-4">{budget}</h4>
+                <h1 className="text-center my-2">{this.state.title}</h1>
+                <h2 className="text-center my-2">${budget}</h2>
                 <div className='form-group'>
                     <input type="text" placeholder="Add New Item" className='form-control' onKeyDown={this.handleChange} ></input>
                 </div>
                 <ul className='list-unstyled'>
                     {pendingListItems}
                 </ul>
-                <ul className='list-unstyled'>
+                <ul className='list-unstyled' id='list__items--done'>
                     {doneListItems}
                 </ul>
             </section>

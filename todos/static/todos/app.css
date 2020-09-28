@@ -1,6 +1,21 @@
+body {
+        font-size: 18px;
+}
+
 #list__items--done li label{
         text-decoration: line-through;
         color: grey;
+}
+
+.custom-control-label {
+        padding-left: .5rem;
+}
+
+.custom-control-label::after,
+.custom-control-label::before {
+        width: 1.5rem;
+        height: 1.5rem;
+        top: 2px;
 }
 
 .twitter-typeahead {

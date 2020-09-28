@@ -8,7 +8,8 @@ class List extends React.Component {
         super(props);
 
         this.state = {
-            items: []
+            items: [],
+            title: ''
         }
 
         this.toggleItem = this.toggleItem.bind(this);
@@ -16,6 +17,15 @@ class List extends React.Component {
     }
 
     componentDidMount() {
+        fetch(`/api/lists/${this.props.listId}`)
+          .then(res => res.json())
+          .then(
+            (result) => {
+                this.setState({
+                    title: result.description
+                })
+            })
+
         fetch(`/api/lists/${this.props.listId}/items`)
           .then(res => res.json())
           .then(
@@ -29,7 +39,6 @@ class List extends React.Component {
             }
           )
       }
-
 
     toggleItem(event) {
         let itemId = event.target.attributes['data-id'].value;
@@ -81,9 +90,16 @@ class List extends React.Component {
             <ListItem data={item} toggle={this.toggleItem}/>
         );
 
+        let budget = 0.0;
+        
+        this.state.items.filter((item)=> !item.done && item.active).map((item)=>
+            budget += parseFloat(item.cost)
+        );
+
         return (
             <section>
-                <h1 class="my-4">List name</h1>
+                <h1 class="my-4">{this.state.title}</h1>
+                <h4 class="my-4">{budget}</h4>
                 <div class='form-group'>
                     <input type="text" placeholder="Add New Item" class='form-control' onKeyDown={this.handleChange} ></input>
                 </div>

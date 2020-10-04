@@ -1,5 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models.functions import Lower
+
 from rest_framework.parsers import JSONParser
 from todos.models import List
 from api.serializers import ListSerializer, ItemSerializer
@@ -50,7 +52,7 @@ def list_items(request, pk):
         return HttpResponse(status=404)
     
     if request.method == 'GET':
-        ordered_items = list.item_set.all().order_by('description')
+        ordered_items = list.item_set.all().order_by(Lower('description'))
         serializer = ItemSerializer(ordered_items, many=True)
         return JsonResponse(serializer.data, safe=False)
     

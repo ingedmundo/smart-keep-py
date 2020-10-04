@@ -92,17 +92,19 @@ class List extends React.Component {
                 method: 'POST',
                 body: JSON.stringify(data),
             })
-                .then(response => response.json())
-                .then(result => {
-                    this.setState({
-                        items: result
-                    })
+            .then(response => response.json())
+            .then(result => {
+                this.setState({
+                    items: result
+                }, (state, props) => {
+                    $('#newItem').typeahead('close');
+                    $('#newItem').val('');
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
             
-            event.target.value = ''
         }
     }
 

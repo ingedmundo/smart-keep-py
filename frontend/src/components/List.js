@@ -22,6 +22,20 @@ var substringMatcher = function (strs) {
     };
 };
 
+var sortDescription = function(a, b) {
+    var descriptionA = a.description.toUpperCase(); // ignore upper and lowercase
+    var descriptionB = b.description.toUpperCase(); // ignore upper and lowercase
+    if (descriptionA < descriptionB) {
+      return -1;
+    }
+    if (descriptionA > descriptionB) {
+      return 1;
+    }
+  
+    // names must be equal
+    return 0;
+  }
+
 class List extends React.Component {
     constructor(props) {
         super(props);
@@ -108,12 +122,17 @@ class List extends React.Component {
         }
     }
 
+
+
     render() {
-        const pendingListItems = this.state.items.filter((item)=> !item.done && item.active).map((item)=>
+        const pendingItems = this.state.items.filter((item)=> !item.done && item.active).sort(sortDescription)
+        const doneItems = this.state.items.filter((item)=> item.done && item.active).sort(sortDescription)
+
+        const pendingListItems = pendingItems.map((item)=>
             <ListItem key={item.id} data={item} toggle={this.toggleItem}/>
         );
 
-        const doneListItems = this.state.items.filter((item)=> item.done && item.active).sort().map((item)=>
+        const doneListItems = doneItems.map((item)=>
             <ListItem key={item.id} data={item} toggle={this.toggleItem}/>
         );
 

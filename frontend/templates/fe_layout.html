@@ -8,10 +8,11 @@
 
     <body class='pb-5'>
         <main class='container mb-4'>
+            {{sts.argv}}
             {% block content %}{%endblock%}
         </main>
         {% load static %}
-        <script src="{% static "frontend/main.js" %}"></script>
-        <!-- <script src='http://localhost:8080/main.js'></script> -->
+        <!--<script src='http://localhost:8080/main.js'></script>-->
+        <script src='{% static "frontend/main.js" %}'></script>
     </body>
 </html>

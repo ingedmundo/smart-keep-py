@@ -90,9 +90,7 @@ class List extends React.Component {
                 let updatedItems = this.state.items;
                 updatedItems[idx].done = !updatedItems[idx].done;
 
-                this.setState({
-                    items: updatedItems
-                });
+                this.setState({ items: updatedItems })
             })
     }
 
@@ -112,7 +110,7 @@ class List extends React.Component {
                     items: result
                 }, (state, props) => {
                     $('#newItem').typeahead('close');
-                    $('#newItem').val('');
+                    $('#newItem').typeahead('val', null);
                 })
             })
             .catch(error => {

@@ -42,7 +42,7 @@ class List extends React.Component {
 
         this.state = {
             items: [],
-            title: ''
+            title: 'Loading List Name...'
         }
 
         this.toggleItem = this.toggleItem.bind(this);
@@ -81,6 +81,7 @@ class List extends React.Component {
 
     toggleItem(event) {
         let itemId = event.target.attributes['data-id'].value;
+        $(`#item-wrapper-${itemId}`).fadeOut();
 
         fetch(`/api/lists/${this.props.listId}/items/${itemId}/toggle`)
           .then(res => res.json())
@@ -100,6 +101,8 @@ class List extends React.Component {
         }
 
         if(event.key == 'Enter' && data['newItemDescription'].length) {
+            $('#newItemWrapper').toggleClass('adding');
+
             fetch(`/api/lists/${this.props.listId}/items`, {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -111,6 +114,7 @@ class List extends React.Component {
                 }, (state, props) => {
                     $('#newItem').typeahead('close');
                     $('#newItem').typeahead('val', null);
+                    $('#newItemWrapper').toggleClass('adding');
                 })
             })
             .catch(error => {
@@ -144,15 +148,20 @@ class List extends React.Component {
             <section>
                 <h1 className="text-center my-2">{this.state.title}</h1>
                 <h2 className="text-center my-2">${budget}</h2>
-                <div className='form-group'>
+                <div className='form-group' id='newItemWrapper'>
                     <input type="text" id="newItem" placeholder="Add New Item" className='form-control' onKeyDown={this.handleChange} ></input>
                 </div>
-                <ul className='list-unstyled'>
-                    {pendingListItems}
-                </ul>
-                <ul className='list-unstyled' id='list__items--done'>
-                    {doneListItems}
-                </ul>
+                {this.state.items.length > 0 
+                    ? <section>
+                        <ul className='list-unstyled'>
+                            {pendingListItems}
+                        </ul>
+                        <ul className='list-unstyled' id='list__items--done'>
+                            {doneListItems}
+                        </ul>
+                    </section>
+                    : <section>Loading list items...</section>
+                }
             </section>
         );
     }

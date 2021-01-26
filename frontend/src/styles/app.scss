@@ -33,3 +33,22 @@ body {
 .tt-menu .tt-cursor {
     background: lightgoldenrodyellow;
 }
+
+.adding {
+    position: relative;
+    &:before {
+        content: 'Adding...';
+        position: absolute;
+        left: 0;
+        background: rgba($primary, .1);
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        padding: 5px;
+        font-style: italic;
+    }
+
+    input {
+        opacity: .1;
+    }
+}

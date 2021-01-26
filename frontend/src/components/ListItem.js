@@ -4,7 +4,7 @@ function ListItem(props) {
     const {data, toggle} = props;
 
     return (
-        <li className="py-1" style={{background: data.is_to_be_bought ? 'lightyellow':'initial'}}>
+        <li id={"item-wrapper-" + data.id} className="py-1" style={{background: data.is_to_be_bought ? 'lightyellow':'initial'}}>
             <div className="custom-control custom-checkbox">
                 <input
                     type="checkbox"

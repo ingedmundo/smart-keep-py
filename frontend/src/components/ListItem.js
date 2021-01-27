@@ -1,7 +1,7 @@
 import React from 'react';
 
 function ListItem(props) {
-    const {data, toggle} = props;
+    const {data, toggle, hide} = props;
 
     return (
         <li id={"item-wrapper-" + data.id} className="py-1" style={{background: data.is_to_be_bought ? 'lightyellow':'initial'}}>
@@ -18,6 +18,7 @@ function ListItem(props) {
                     htmlFor={data.id} >
                     {data.description} <em>- ${data.cost} </em>
                 </label>
+                <button data-id={data.id} className='btn btn-sm btn-secondary float-right d-none d-sm-block' onClick={hide}>Hide</button>
             </div>
             <small className='d-none d-sm-inline-block text-muted'>
                 {data.delta_info}

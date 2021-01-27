@@ -41,7 +41,7 @@ def list_detail(request, pk):
         return JsonResponse(serializer.errors, status=400)
     
     elif request.method == 'DELETE':
-        list.detele()
+        list.delete()
         return HttpResponse(status=204)
 
 @csrf_exempt
@@ -88,3 +88,24 @@ def list_item_toggle(request, list_id, item_id):
     item.toggle_done()
 
     return JsonResponse({'success': True})
+
+@csrf_exempt
+def list_item_hide(request, list_id, item_id):
+    try:
+        list = List.objects.get(pk=list_id)
+    except List.DoesNotExist:
+        return HttpResponse(status=404)
+
+    item = list.item_set.get(pk=item_id)
+
+    if item.done:
+        item.active = False
+    else:
+        item.done = True
+
+    item.save()
+
+    #serializer = ItemSerializer(item)
+    #return JsonResponse(serializer.data, safe=False)
+    serializer = ItemSerializer(list.item_set.all(), many=True)
+    return JsonResponse(serializer.data, safe=False)

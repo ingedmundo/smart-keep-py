@@ -45,7 +45,8 @@ class List extends React.Component {
             title: 'Loading List Name...'
         }
 
-        this.toggleItem = this.toggleItem.bind(this);
+        this.toggleItem = this.toggleItem.bind(this)
+        this.hideItem = this.hideItem.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
 
@@ -95,6 +96,19 @@ class List extends React.Component {
             })
     }
 
+    hideItem(event) {
+        let itemId = event.target.attributes['data-id'].value;
+        $(`#item-wrapper-${itemId}`).fadeOut();
+
+        fetch(`/api/lists/${this.props.listId}/items/${itemId}/hide`)
+          .then(res => res.json())
+          .then( (result) => {
+                this.setState({
+                    items: result
+                })
+            })
+    }
+
     handleChange(event) {
         const data = {
             newItemDescription: event.target.value
@@ -124,18 +138,16 @@ class List extends React.Component {
         }
     }
 
-
-
     render() {
         const pendingItems = this.state.items.filter((item)=> !item.done && item.active).sort(sortDescription)
         const doneItems = this.state.items.filter((item)=> item.done && item.active).sort(sortDescription)
 
         const pendingListItems = pendingItems.map((item)=>
-            <ListItem key={item.id} data={item} toggle={this.toggleItem}/>
+            <ListItem key={item.id} data={item} toggle={this.toggleItem} hide={this.hideItem}/>
         );
 
         const doneListItems = doneItems.map((item)=>
-            <ListItem key={item.id} data={item} toggle={this.toggleItem}/>
+            <ListItem key={item.id} data={item} toggle={this.toggleItem} hide={this.hideItem}/>
         );
 
         let budget = 0.0;

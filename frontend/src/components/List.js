@@ -23,8 +23,8 @@ var substringMatcher = function (strs) {
 };
 
 var sortDescription = function(a, b) {
-    var descriptionA = a.description.toUpperCase(); // ignore upper and lowercase
-    var descriptionB = b.description.toUpperCase(); // ignore upper and lowercase
+    var descriptionA = `${a.is_to_be_bought ? 'A':'Z'} ${a.description.toUpperCase()}`; // ignore upper and lowercase
+    var descriptionB = `${b.is_to_be_bought ? 'A':'Z'} ${b.description.toUpperCase()}`; // ignore upper and lowercase
     if (descriptionA < descriptionB) {
       return -1;
     }
